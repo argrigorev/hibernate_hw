@@ -23,8 +23,4 @@ public class PersonRepository {
                 .setParameter("city", city)
                 .getResultList();
     }
-
-    public void save(Person person) {
-        entityManager.persist(person); // сохраняем объект в БД
-    }
 }
