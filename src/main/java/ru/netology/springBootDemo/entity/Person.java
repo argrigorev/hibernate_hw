@@ -1,5 +1,6 @@
 package ru.netology.springBootDemo.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -11,7 +12,10 @@ public class Person {
     @EmbeddedId
     private PersonId personId;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "city_of_living")
     private String cityOfLiving;
 
     public Person() {}
