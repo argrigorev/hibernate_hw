@@ -1,30 +1,22 @@
 package ru.netology.springBootDemo.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ru.netology.springBootDemo.entity.Person;
+import ru.netology.springBootDemo.entity.PersonId;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public class PersonRepository {
+public interface PersonRepository extends JpaRepository<Person, PersonId> {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Query("SELECT p FROM Person p WHERE p.cityOfLiving = :city")
+    List<Person> findByCity(@Param("city") String city);
 
-    public PersonRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    @Query("SELECT p FROM Person p WHERE p.personId.age < :age ORDER BY p.personId.age ASC")
+    List<Person> findByAgeLessThan(@Param("age") int age);
 
-    public List<Person> getPersonsByCity(String city) {
-        return entityManager.createQuery(
-                "select p from Person p where p.cityOfLiving = :city", Person.class)
-                .setParameter("city", city)
-                .getResultList();
-    }
-
-    public void save(Person person) {
-        entityManager.persist(person); // сохраняем объект в БД
-    }
+    @Query("SELECT p FROM Person p WHERE p.personId.name = :name AND p.personId.surname = :surname")
+    Optional<Person> findByNameAndSurname(@Param("name") String name, @Param("surname") String surname);
 }

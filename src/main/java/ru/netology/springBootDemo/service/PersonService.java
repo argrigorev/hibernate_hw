@@ -1,13 +1,12 @@
 package ru.netology.springBootDemo.service;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ru.netology.springBootDemo.entity.Person;
 import ru.netology.springBootDemo.entity.PersonId;
 import ru.netology.springBootDemo.repository.PersonRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -19,7 +18,19 @@ public class PersonService {
     }
 
     public List<Person> findByCity(String city) {
-        return personRepository.getPersonsByCity(city);
+        return personRepository.findByCity(city);
+    }
+
+    public List<Person> findByPersonIdAgeLessThan(int age) {
+        return personRepository.findByAgeLessThan(age);
+    }
+
+    public Optional<Person> findByNameAndSurname(String name, String surname) {
+        return personRepository.findByNameAndSurname(name, surname);
+    }
+
+    public void save(Person person) {
+        personRepository.save(person);
     }
 
     public void loadInitialData() {
