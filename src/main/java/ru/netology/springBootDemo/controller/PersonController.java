@@ -19,6 +19,11 @@ public class PersonController {
         this.personService = personService;
     }
 
+    @GetMapping("/hello")
+    public String hello() {
+        return "Добро пожаловать! Этот эндпоинт доступен без авторизации.";
+    }
+
     @GetMapping("/by-city")
     public List<Person> findByCity(@RequestParam String city) {
         return personService.findByCity(city);
